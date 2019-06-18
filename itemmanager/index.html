@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Item Manager</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='bootstrap.min.css'>
+ 
+</head>
+<body>
+
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+      <h5 class="my-0 mr-md-auto font-weight-normal">Item Manager</h5>
+      <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="/">Home</a>
+      </nav>
+    </div>
+
+    <div class="container">
+        <h1>Add Item</h1>
+        <form id="itemForm">
+            <div class="form-group">
+                <label>Text</label>
+                <input type="text" id="text" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label>Bodt</label>
+                <textarea id="body" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-success" type="submit" >Submit</button>
+        </form>
+        <ul id="items" class="list-group"> </ul>
+    </div>
+    
+<script
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function(){
+        getItems();
+
+        $('#itemForm').on('submit', function(e){
+            let text = $('#text').val();
+            let body = $('#body').val();
+            addItem(text, body);
+        });
+
+        $('body').on('click','.deleteLink', function(e){
+           e.preventDefault();
+           let id=$(this).data('id');
+           deleteItem(id);
+        });
+
+        function deleteItem(id){
+            $.ajax({
+                method:'POST',
+                url:'http://itemapi.test:8080/api/items/'+id,
+                data:{_method:'DELETE'}
+            }).done(function(item){
+                console.table(item);
+                alert('Item removed!');
+                getItems();
+            });
+        }
+
+        function addItem(text, body){
+            $.ajax({
+                method:'POST',
+                url:'http://itemapi.test:8080/api/items',
+                data:{text:text, body:body}
+            }).done(function(item){
+                console.table(item);
+                alert('Item #'+item.id+" added!");
+                getItems();
+            });
+        }
+        function getItems(){
+            $.ajax({
+                url:'http://itemapi.test:8080/api/items',
+            }).done(function(items){
+                console.table(items);
+                let output ='';
+                $.each(items, function(key, item){
+                    output+=`
+                        <li class="list-group-item"><strong>${item.text}</strong> : ${item.body} <a href="#" class="deleteLink btn btn-danger" data-id="${item.id}">Delete</a></li>
+                    `;
+                })
+                $('#items').append(output);
+            });
+        }
+    });
+</script>
+</body>
+</html>
