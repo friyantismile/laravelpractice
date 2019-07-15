@@ -1,4 +1,4 @@
-1560762693a:1:{s:17:"blog/category.htm";a:13:{s:8:"fileName";s:17:"blog/category.htm";s:7:"content";s:638:"title = "Blog Category"
+1561623988a:1:{s:17:"blog/category.htm";a:13:{s:8:"fileName";s:17:"blog/category.htm";s:7:"content";s:638:"title = "Blog Category"
 url = "/blog/category/:slug/:page?"
 layout = "default"
 description = "Viewing blog posts in a specific category."

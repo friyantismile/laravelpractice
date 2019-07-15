@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\Item as ItemResource;
 use App\Item;
 use Validator;
 
@@ -15,11 +16,10 @@ class ItemsController extends Controller
      */
     public function index()
     {
-        $items = Item::all();
-        return response()->json($items);
+       // $items = Item::all();
+        $items = Item::Paginate(1);
+        return response()->json($items, 200);
     }
-
-   
 
     /**
      * Store a newly created resource in storage.
@@ -40,7 +40,7 @@ class ItemsController extends Controller
             $item->text=$request->input('text');
             $item->body=$request->input('body');
             $item->save();
-            return response()->json($item);
+            return response()->json($item, 201);
         }
        
     }
@@ -53,8 +53,9 @@ class ItemsController extends Controller
      */
     public function show($id)
     {
-        $item=Item::find($id);
-        return response()->json($item);
+        $item=Item::findOrFail($id);
+        $response=new ItemResource($item);
+        return response()->json($response, 200);
     }
 
    
@@ -69,7 +70,7 @@ class ItemsController extends Controller
     {
        
         $validator = Validator::make($request->all(), [
-            'text'=>'required'
+            'text'=>'required|max:10'
         ]);
         if($validator->fails()) {
             $response = array('response'=>$validator->messages(), 'success'=>false);
@@ -79,7 +80,7 @@ class ItemsController extends Controller
             $item->text=$request->input('text');
             $item->body=$request->input('body');
             $item->save();
-            return response()->json($item);
+            return response()->json($item, 200);
         }
        
     }
@@ -90,11 +91,20 @@ class ItemsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
+        
         $item= Item::find($id);
         $item->delete();
         $response = array('response'=>'Item deleted!', 'success'=>true);
         return $response;
+        //response code 204
+        
+    }
+
+    public function errors()
+    {
+        return response()->json(['payment is required!'], 501);
+        
     }
 }

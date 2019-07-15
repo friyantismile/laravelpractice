@@ -1,4 +1,4 @@
-1560762700a:1:{s:13:"blog/post.htm";a:5:{s:8:"fileName";s:13:"blog/post.htm";s:7:"content";s:1060:"{% set image = post.featured_images.first %}
+1561623989a:1:{s:13:"blog/post.htm";a:5:{s:8:"fileName";s:13:"blog/post.htm";s:7:"content";s:1060:"{% set image = post.featured_images.first %}
 <article>
 
     {% if image %}
