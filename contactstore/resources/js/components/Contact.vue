@@ -83,6 +83,7 @@ export default{
             self.edit = true;
         },
         async deleteContact(id){
+            let self = this;
             await axios.delete('api/contact/'+id);
             self.fetchContactList();
         },

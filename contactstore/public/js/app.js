@@ -1854,22 +1854,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _deleteContact = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(id) {
+        var self;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                _context3.next = 2;
+                self = this;
+                _context3.next = 3;
                 return axios["delete"]('api/contact/' + id);
 
-              case 2:
+              case 3:
                 self.fetchContactList();
 
-              case 3:
+              case 4:
               case "end":
                 return _context3.stop();
             }
           }
-        }, _callee3);
+        }, _callee3, this);
       }));
 
       function deleteContact(_x2) {
